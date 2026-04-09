@@ -2,10 +2,9 @@
 <html lang="lt">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Žvėriško žaidimo laikmatis</title>
 
-  <!-- Poppins -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
 
   <style>
@@ -13,182 +12,440 @@
       box-sizing: border-box;
     }
 
-    body {
+    :root {
+      --bg: #f3f3f3;
+      --text: #000;
+      --black: #000;
+      --white: #fff;
+    }
+
+    html, body {
       margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100%;
       font-family: 'Poppins', sans-serif;
-      background: #f3f3f3;
-      color: #000;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .app {
+      width: 100%;
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
+      padding: 16px;
     }
 
-    .container {
-      text-align: center;
+    .timer-card {
       width: 100%;
-      max-width: 1000px;
-      padding: 20px;
-    }
-
-    h1 {
-      font-size: clamp(36px, 5vw, 56px);
-      font-weight: 700;
-      margin-bottom: 40px;
-    }
-
-    /* TIME BUTTONS */
-    .time-select {
+      max-width: 1400px;
       display: flex;
-      justify-content: center;
-      gap: 30px;
-      margin-bottom: 30px;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
     }
 
-    .time-btn {
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      border: 2px solid #000;
-      background: #000;
-      color: #fff;
-      font-size: 42px;
+    .title {
+      margin: 0;
       font-weight: 700;
-      cursor: pointer;
-      transition: 0.2s;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
 
-      /* CENTRAVIMAS */
+    .time-options {
       display: flex;
       justify-content: center;
       align-items: center;
-
-      line-height: 1;
     }
 
-    .time-btn:hover {
-      background: #fff;
-      color: #000;
+    .time-btn {
+      border-radius: 50%;
+      border: 2px solid var(--black);
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      line-height: 1;
+      flex-shrink: 0;
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
     }
 
     .time-btn.active {
-      background: #fff;
-      color: #000;
+      background: var(--white);
+      color: var(--black);
+      border: 2px solid var(--black);
     }
 
-    /* TIMER */
-    #time {
-      font-size: clamp(100px, 18vw, 200px);
+    .timer-display {
       font-weight: 800;
-      margin: 20px 0 40px;
-      letter-spacing: -3px;
+      line-height: 1;
+      letter-spacing: -0.05em;
+      margin: 0;
     }
 
-    /* CONTROL BUTTONS */
     .controls {
       display: flex;
       justify-content: center;
-      gap: 20px;
+      align-items: center;
     }
 
     .control-btn {
-      padding: 14px 28px;
       border-radius: 999px;
-      border: 2px solid #000;
-      background: #000;
-      color: #fff;
-      font-size: 18px;
-      font-weight: 600;
+      border: 2px solid var(--black);
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
       cursor: pointer;
-      transition: 0.2s;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+      white-space: nowrap;
     }
 
-    .control-btn:hover {
-      background: #fff;
-      color: #000;
+    .status {
+      margin-top: 18px;
+      min-height: 24px;
+      font-size: 18px;
+      font-weight: 500;
+      opacity: 0.9;
     }
 
-    /* MOBILE */
-    @media (max-width: 600px) {
+    /* PHONE: 393x852 style */
+    @media (max-width: 767px) {
+      .app {
+        padding: 16px 18px;
+      }
+
+      .timer-card {
+        max-width: 393px;
+      }
+
+      .title {
+        font-size: 28px;
+        max-width: 300px;
+        margin-bottom: 40px;
+      }
+
+      .time-options {
+        gap: 16px;
+        margin-bottom: 54px;
+      }
+
       .time-btn {
-        width: 70px;
-        height: 70px;
-        font-size: 30px;
+        width: 54px;
+        height: 54px;
+        font-size: 24px;
+      }
+
+      .timer-display {
+        font-size: 92px;
+        margin-bottom: 44px;
       }
 
       .controls {
         flex-direction: column;
-        gap: 10px;
+        gap: 24px;
+      }
+
+      .control-btn {
+        min-width: 100px;
+        height: 28px;
+        padding: 0 18px;
+        font-size: 14px;
+      }
+
+      .status {
+        font-size: 14px;
+        margin-top: 24px;
       }
     }
 
+    /* 1280x720 style */
+    @media (min-width: 768px) and (max-width: 1365px) {
+      .app {
+        padding: 24px 40px;
+      }
+
+      .timer-card {
+        max-width: 1200px;
+      }
+
+      .title {
+        font-size: 44px;
+        margin-bottom: 32px;
+      }
+
+      .time-options {
+        gap: 52px;
+        margin-bottom: 28px;
+      }
+
+      .time-btn {
+        width: 62px;
+        height: 62px;
+        font-size: 24px;
+      }
+
+      .timer-display {
+        font-size: 128px;
+        margin-bottom: 34px;
+      }
+
+      .controls {
+        flex-direction: row;
+        gap: 18px;
+      }
+
+      .control-btn {
+        min-width: 110px;
+        height: 38px;
+        padding: 0 24px;
+        font-size: 16px;
+      }
+
+      .status {
+        font-size: 16px;
+      }
+    }
+
+    /* 1440x1024 style */
+    @media (min-width: 1366px) {
+      .app {
+        padding: 40px 56px;
+      }
+
+      .timer-card {
+        max-width: 1400px;
+      }
+
+      .title {
+        font-size: 56px;
+        margin-bottom: 40px;
+      }
+
+      .time-options {
+        gap: 62px;
+        margin-bottom: 34px;
+      }
+
+      .time-btn {
+        width: 76px;
+        height: 76px;
+        font-size: 34px;
+      }
+
+      .timer-display {
+        font-size: 170px;
+        margin-bottom: 42px;
+      }
+
+      .controls {
+        flex-direction: row;
+        gap: 22px;
+      }
+
+      .control-btn {
+        min-width: 132px;
+        height: 44px;
+        padding: 0 28px;
+        font-size: 18px;
+      }
+
+      .status {
+        font-size: 18px;
+      }
+    }
+
+    /* Hover tik desktopui / įrenginiams su pele */
+    @media (hover: hover) and (pointer: fine) and (min-width: 768px) {
+      .time-btn:hover {
+        background: var(--white);
+        color: var(--black);
+        border: 2px solid var(--black);
+      }
+
+      .control-btn:hover {
+        background: var(--white);
+        color: var(--black);
+        border: 2px solid var(--black);
+      }
+    }
   </style>
 </head>
-
 <body>
+  <div class="app">
+    <main class="timer-card">
+      <h1 class="title">Žvėriško žaidimo laikmatis</h1>
 
-<div class="container">
-  <h1>Žvėriško žaidimo laikmatis</h1>
+      <div class="time-options">
+        <button class="time-btn active" onclick="setTime(180, this)">3</button>
+        <button class="time-btn" onclick="setTime(300, this)">5</button>
+        <button class="time-btn" onclick="setTime(600, this)">10</button>
+      </div>
 
-  <div class="time-select">
-    <button class="time-btn active" onclick="setTime(180, this)">3</button>
-    <button class="time-btn" onclick="setTime(300, this)">5</button>
-    <button class="time-btn" onclick="setTime(600, this)">10</button>
+      <div id="timerDisplay" class="timer-display">3:00</div>
+
+      <div class="controls">
+        <button class="control-btn" onclick="startTimer()">Pradėti</button>
+        <button class="control-btn" onclick="pauseTimer()">Sustabdyti</button>
+        <button class="control-btn" onclick="resumeTimer()">Pratęsti</button>
+      </div>
+
+      <div id="status" class="status"></div>
+    </main>
   </div>
 
-  <div id="time">3:00</div>
+  <script>
+    let time = 180;
+    let initialTime = 180;
+    let timer = null;
+    let hasStarted = false;
+    let audioUnlocked = false;
 
-  <div class="controls">
-    <button class="control-btn" onclick="pauseTimer()">Sustabdyti</button>
-    <button class="control-btn" onclick="startTimer()">Pratęsti</button>
-  </div>
-</div>
+    function updateDisplay() {
+      const minutes = Math.floor(time / 60);
+      const seconds = time % 60;
+      document.getElementById("timerDisplay").textContent =
+        `${minutes}:${String(seconds).padStart(2, "0")}`;
+    }
 
-<script>
-let time = 180;
-let initialTime = 180;
-let timer = null;
+    function updateStatus(text = "") {
+      document.getElementById("status").textContent = text;
+    }
 
-function updateDisplay() {
-  const minutes = Math.floor(time / 60);
-  const seconds = time % 60;
-  document.getElementById("time").textContent =
-    `${minutes}:${String(seconds).padStart(2, "0")}`;
-}
-
-function setTime(seconds, btn) {
-  clearInterval(timer);
-  timer = null;
-
-  time = seconds;
-  initialTime = seconds;
-  updateDisplay();
-
-  document.querySelectorAll(".time-btn").forEach(b => b.classList.remove("active"));
-  btn.classList.add("active");
-}
-
-function startTimer() {
-  if (timer) return;
-
-  timer = setInterval(() => {
-    if (time > 0) {
-      time--;
-      updateDisplay();
-    } else {
+    function setTime(seconds, btn) {
       clearInterval(timer);
       timer = null;
-      alert("Laikas baigėsi!");
+      time = seconds;
+      initialTime = seconds;
+      hasStarted = false;
+      updateDisplay();
+      updateStatus("");
+
+      document.querySelectorAll(".time-btn").forEach(button => {
+        button.classList.remove("active");
+      });
+      btn.classList.add("active");
     }
-  }, 1000);
-}
 
-function pauseTimer() {
-  clearInterval(timer);
-  timer = null;
-}
+    function unlockAudio() {
+      if (audioUnlocked) return;
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContextClass) return;
 
-updateDisplay();
-</script>
+      const ctx = new AudioContextClass();
+      const oscillator = ctx.createOscillator();
+      const gainNode = ctx.createGain();
 
+      oscillator.connect(gainNode);
+      gainNode.connect(ctx.destination);
+
+      gainNode.gain.value = 0.0001;
+      oscillator.start();
+      oscillator.stop(ctx.currentTime + 0.01);
+
+      audioUnlocked = true;
+    }
+
+    function playEndSound() {
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContextClass) {
+        alert("Laikas baigėsi!");
+        return;
+      }
+
+      const ctx = new AudioContextClass();
+      const now = ctx.currentTime;
+
+      const notes = [
+        { freq: 880, start: 0.00, duration: 0.18 },
+        { freq: 880, start: 0.24, duration: 0.18 },
+        { freq: 1046, start: 0.48, duration: 0.35 }
+      ];
+
+      notes.forEach(note => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(note.freq, now + note.start);
+
+        gain.gain.setValueAtTime(0.0001, now + note.start);
+        gain.gain.exponentialRampToValueAtTime(0.25, now + note.start + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + note.start + note.duration);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(now + note.start);
+        osc.stop(now + note.start + note.duration);
+      });
+
+      setTimeout(() => {
+        alert("Laikas baigėsi!");
+      }, 820);
+    }
+
+    function startCountdown() {
+      timer = setInterval(() => {
+        if (time > 0) {
+          time--;
+          updateDisplay();
+        } else {
+          clearInterval(timer);
+          timer = null;
+          updateStatus("Laikas baigėsi!");
+          playEndSound();
+        }
+      }, 1000);
+    }
+
+    function startTimer() {
+      unlockAudio();
+
+      clearInterval(timer);
+      timer = null;
+
+      time = initialTime;
+      updateDisplay();
+      updateStatus("");
+      hasStarted = true;
+
+      startCountdown();
+    }
+
+    function pauseTimer() {
+      clearInterval(timer);
+      timer = null;
+      if (hasStarted && time > 0) {
+        updateStatus("Laikmatis sustabdytas");
+      }
+    }
+
+    function resumeTimer() {
+      unlockAudio();
+
+      if (timer || time <= 0) return;
+      hasStarted = true;
+      updateStatus("");
+      startCountdown();
+    }
+
+    updateDisplay();
+  </script>
 </body>
 </html>
