@@ -309,12 +309,17 @@
     </main>
   </div>
 
+  <audio id="endSound" preload="auto">
+    <source src="Laikrodzio.mp3" type="audio/mpeg">
+  </audio>
+
   <script>
     let time = 180;
     let initialTime = 180;
     let timer = null;
     let hasStarted = false;
-    let audioUnlocked = false;
+
+    const endSound = document.getElementById("endSound");
 
     function updateDisplay() {
       const minutes = Math.floor(time / 60);
@@ -343,61 +348,17 @@
     }
 
     function unlockAudio() {
-      if (audioUnlocked) return;
-      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-      if (!AudioContextClass) return;
-
-      const ctx = new AudioContextClass();
-      const oscillator = ctx.createOscillator();
-      const gainNode = ctx.createGain();
-
-      oscillator.connect(gainNode);
-      gainNode.connect(ctx.destination);
-
-      gainNode.gain.value = 0.0001;
-      oscillator.start();
-      oscillator.stop(ctx.currentTime + 0.01);
-
-      audioUnlocked = true;
+      endSound.play().then(() => {
+        endSound.pause();
+        endSound.currentTime = 0;
+      }).catch(() => {});
     }
 
     function playEndSound() {
-      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-      if (!AudioContextClass) {
+      endSound.currentTime = 0;
+      endSound.play().catch(() => {
         alert("Laikas baigėsi!");
-        return;
-      }
-
-      const ctx = new AudioContextClass();
-      const now = ctx.currentTime;
-
-      const notes = [
-        { freq: 880, start: 0.00, duration: 0.18 },
-        { freq: 880, start: 0.24, duration: 0.18 },
-        { freq: 1046, start: 0.48, duration: 0.35 }
-      ];
-
-      notes.forEach(note => {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-
-        osc.type = "sine";
-        osc.frequency.setValueAtTime(note.freq, now + note.start);
-
-        gain.gain.setValueAtTime(0.0001, now + note.start);
-        gain.gain.exponentialRampToValueAtTime(0.25, now + note.start + 0.02);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + note.start + note.duration);
-
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-
-        osc.start(now + note.start);
-        osc.stop(now + note.start + note.duration);
       });
-
-      setTimeout(() => {
-        alert("Laikas baigėsi!");
-      }, 820);
     }
 
     function startCountdown() {
